@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>introduction </title>
+
+<body style="text-align: center; margin-top: 100px;">
+ <h1>You are in <i>{{ album.album_title }}</i> album</h1>
+ <h3>Add a new <a href="{% url 'newsong' album.pk %}">song</a></h3>
+ {% for song in songs %}
+   	{{ song.song_title }} <br>&nbsp;&nbsp;&nbsp;&nbsp;
+  {%  endfor %}
+</body>
+</html>
