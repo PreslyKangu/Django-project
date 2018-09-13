@@ -1,10 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from app.models import Album,Song
-
+from app.forms import AlbumForm
+from app.forms import signupform
 
 # Create your views here.
 def home(request):
-	return render(request,'index.html')
+	return render(request,'home.html')
 
 def about(request):
 	return render(request,'about.html')
@@ -63,3 +64,32 @@ def albumflani(request,pk):
 	album = Album.objects.get(id=pk)
 	songs = Song.objects.select_related().filter(album_id=pk)
 	return render(request,'albumflani.html',{'album':album,'songs':songs})
+
+
+
+def ultra_album_model(request):
+	if request.method == "POST":
+		form = AlbumForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			print("added")
+			return redirect('albums')
+
+	else:
+		form = AlbumForm()
+	return render (request, 'ultra_album_model.html',{'form':form})
+
+
+
+def sign_up(request):
+	if request.method == "POST":
+		form = signupform(request.POST or None)
+		if form.is_valid():
+			user = form.save()
+			#Login(request,user)
+			print(user.email)
+			return redirect('home')
+
+	else:
+		form = signupform()
+	return render (request, 'sign_up.html',{'form':form})
