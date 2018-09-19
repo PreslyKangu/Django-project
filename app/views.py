@@ -1,7 +1,10 @@
-from django.shortcuts import render,redirect,HttpResponseRedirect
-from app.models import Album,Song
-from app.forms import AlbumForm
-from app.forms import signupform
+from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth import login,authenticate
+from app.models import Album,Song,Person
+from app.forms import AlbumForm,signupform,signinform,Personform
+
+
+
 
 # Create your views here.
 def home(request):
@@ -86,10 +89,49 @@ def sign_up(request):
 		form = signupform(request.POST or None)
 		if form.is_valid():
 			user = form.save()
-			#Login(request,user)
+			#sign_up(request,user)
 			print(user.email)
-			return redirect('home')
+			return redirect('sign_in')
 
 	else:
 		form = signupform()
 	return render (request, 'sign_up.html',{'form':form})
+
+
+
+
+def sign_in(request):
+	if request.method =="POST":
+		form = signinform(request.POST or None)
+		if form.is_valid():
+			username = form.cleaned_data.get("username")
+			password = form.cleaned_data.get("password")
+			user = authenticate(username=username, password=password)
+			#login(request,user)
+			print("so far so good")
+			print(request.user.is_authenticated)
+			print(username)
+			print(password)
+			return redirect('home')
+	else:
+		form = signinform()
+	return render (request, 'sign_in.html',{'form':form})
+
+
+
+
+def newperson(request):
+	if request.method =="POST":
+		form = Personform(request.POST or None)
+		if form.is_valid():
+			form.save()
+		return redirect("people")
+
+	else:
+	   form = Personform()
+	return render (request, 'newperson.html',{'form':form})
+
+
+def people(request):
+	people = Person.objects.all()
+	return render (request, 'people.html', {'people':people})

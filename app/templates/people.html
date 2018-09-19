@@ -1,0 +1,6 @@
+	
+{% for person in people %} 
+{{ person.name }}
+{{ person.age  }}
+<img src="{{ person.picture.url }}" height="300px" width="300px"><br>
+{% endfor %}

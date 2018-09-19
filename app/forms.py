@@ -1,5 +1,5 @@
 from django import forms
-from app.models import Album
+from app.models import Album,Person
 from django.contrib.auth.models import User
 
 class AlbumForm(forms.ModelForm):
@@ -15,3 +15,13 @@ class signupform(forms.ModelForm):
 	
 		
 		
+class signinform(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
+class Personform(forms.ModelForm):
+	"""docstring for Person"""
+	class Meta:
+		model = Person
+		fields = ('name','age','picture')

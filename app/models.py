@@ -22,3 +22,12 @@ class Song(models.Model):
 
 	def _str_(self):
 		return self.song_title
+
+class Person(models.Model):
+	name = models.CharField(max_length=30)
+	age = models. IntegerField()
+	picture = models.ImageField(upload_to = '')
+
+	def __str__(self):
+		return self.name
+
